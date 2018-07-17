@@ -1,0 +1,24 @@
+{
+    "private": true,
+    "name": "training-implement-tabs-component",
+    "description": "Task, which learn you how to write code which should pass the unit tests.",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": {
+        "name": "Piotr Kowalski",
+        "email": "piecioshka@gmail.com",
+        "url": "https://piecioshka.pl/"
+    },
+    "scripts": {
+        "start": "browser-sync start --server --watch"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+        "browser-sync": "^2.24.5"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:piecioshka/training-implement-tabs-component.git"
+    }
+}
