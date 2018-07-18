@@ -137,7 +137,7 @@ describe('TabsComponent', function () {
                 assert.deepEqual(c.$el, null, 'Function "this.build()" should create structure, but not modify current "this.$el" property');
             });
 
-            test('should build tabs list as DOM elements', (assert) => {
+            test('should use "this.tabs" to build DOM tree with tabs', (assert) => {
                 const c = new TabsComponent({ $target: {} });
                 c.addTab('foo', 'bar');
 
