@@ -30,9 +30,10 @@ const test = QUnit.test;
 describe('TabsComponent', function () {
     describe('General', function () {
         test('should be defined in global scope', (assert) => {
-            assert.ok(
-                typeof TabsComponent !== 'undefined',
-                'Define TabsComponent in Window, global object.'
+            assert.notEqual(
+                typeof TabsComponent,
+                'undefined',
+                'Define "window.TabsComponent"'
             );
         });
 
@@ -40,18 +41,18 @@ describe('TabsComponent', function () {
             assert.regexp(
                 TabsComponent.toString(),
                 CLASS_CHECKER_REGEXP,
-                'Change "window.TabsComponent" to class.'
+                'Change "window.TabsComponent" to class'
             );
         });
     });
 
-    describe('API', function (hooks) {
+    describe('API', function () {
         describe('constructor', () => {
             const hasDefaultParam = (/constructor\(\w+ =/).test(TabsComponent.toString());
 
             if (!hasDefaultParam) {
                 test('should be waiting for single argument "options" in constructor', (assert) => {
-                    assert.equal(TabsComponent.length, 1, 'Add one argument into window.TabsComponent constructor, eg. "options"');
+                    assert.deepEqual(TabsComponent.length, 1, 'Add one argument into window.TabsComponent constructor, eg. "options"');
                 });
             }
 
@@ -71,13 +72,21 @@ describe('TabsComponent', function () {
                 const c = new TabsComponent({
                     $target: my$target
                 });
-                assert.equal(c.$target, my$target, 'Assign value from options.$target to this.$target');
+                assert.deepEqual(c.$target, my$target, 'Assign value from "options.$target" to "this.$target"');
             });
 
             test('should have empty property with DOM structure', (assert) => {
                 const c = new TabsComponent({});
-                assert.ok(c.hasOwnProperty('$el'), 'Add this.$el property');
-                assert.ok(c.$el === null, 'Set this.$el to null at the beginning');
+                assert.ok(c.hasOwnProperty('$el'), 'Add "this.$el" property');
+                assert.deepEqual(c.$el, null, 'Set "this.$el" to null at the beginning');
+            });
+
+            test('"this.$el" should be define with "null" value', (assert) => {
+                const cached = document.querySelector;
+                document.querySelector = () => 'DO NOT USE';
+                const c = new TabsComponent({});
+                assert.deepEqual(c.$el, null, 'Do not use "document.querySelector" in TabsComponent constructor');
+                document.querySelector = cached;
             });
 
             test('should have list of tabs in Array', (assert) => {
@@ -90,12 +99,12 @@ describe('TabsComponent', function () {
         describe('addTab', () => {
             test('should be a method', (assert) => {
                 const c = new TabsComponent({});
-                assert.equal(typeof c.addTab, 'function', 'Define function "this.addTab"');
+                assert.deepEqual(typeof c.addTab, 'function', 'Define function "this.addTab()"');
             });
 
             test('addTab: expected 2 arguments: title, content', (assert) => {
                 const c = new TabsComponent({});
-                assert.equal(c.addTab.length, 2, 'Method "this.addTab" expects 2 arguments');
+                assert.deepEqual(c.addTab.length, 2, 'Method "this.addTab()" expects 2 arguments');
             });
 
             test('should append "tabs" property', (assert) => {
@@ -112,15 +121,21 @@ describe('TabsComponent', function () {
         describe('build', () => {
             test('should define render method', (assert) => {
                 const c = new TabsComponent({});
-                assert.equal(typeof c.build, 'function', 'Define function "this.build"');
+                assert.deepEqual(typeof c.build, 'function', 'Define function "this.build()"');
             });
 
             test('should verify that list of tabs is non-empty', (assert) => {
                 const c = new TabsComponent({});
                 const $el = c.build();
-                assert.equal($el, null, 'Add early return to "this.build" method, with checking that "this.tabs" is empty');
+                assert.deepEqual($el, null, 'Add early return to "this.build()" method, with checking that "this.tabs" is empty');
             });
 
+            test('should not modify current "this.$el" property', (assert) => {
+                const c = new TabsComponent({});
+                c.addTab('t', 'c');
+                c.build();
+                assert.deepEqual(c.$el, null, 'Function "this.build()" should create structure, but not modify current "this.$el" property');
+            });
 
             test('should build tabs list as DOM elements', (assert) => {
                 const c = new TabsComponent({ $target: {} });
@@ -129,20 +144,20 @@ describe('TabsComponent', function () {
                 let $el = c.build();
 
                 assert.ok($el.querySelector('nav'), 'Create <nav> for tabs panel');
-                assert.equal($el.querySelector('nav').id, 'tabs', 'Set id="tabs" into <nav>');
-                assert.ok($el.querySelector('nav').querySelector('ul'), 'Create <nav> with <ul> which contains list of "titles"');
+                assert.deepEqual($el.querySelector('nav').id, 'tabs', 'Set id="tabs" into <nav>');
+                assert.ok($el.querySelector('nav').querySelector('ul'), 'Create <nav> with <ul> which contains list of "titles" (use "appendChild" method)');
                 assert.ok($el.querySelector('ul'), 'Create <ul> with list of <li> which contains "titles"');
-                assert.equal($el.querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 tab');
-                assert.equal($el.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
+                assert.deepEqual($el.querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 tab');
+                assert.deepEqual($el.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
 
                 c.addTab('xxx', 'yyy');
                 c.addTab('abc', 'bleh');
 
                 $el = c.build();
 
-                assert.equal($el.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
-                assert.equal($el.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
-                assert.equal($el.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
+                assert.deepEqual($el.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
+                assert.deepEqual($el.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
+                assert.deepEqual($el.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
             });
 
             test('should build content list as DOM elements', (assert) => {
@@ -152,18 +167,18 @@ describe('TabsComponent', function () {
                 let $el = c.build();
 
                 assert.ok($el.querySelector('main'), 'Create <main> with list of <div> which contains "titles"');
-                assert.equal($el.querySelector('main').id, 'content', 'Add id="content" to <main> container');
-                assert.equal($el.querySelector('main').children.length, 1, 'After adding 1 element, list of contents should have only 1 tab');
-                assert.equal($el.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
+                assert.deepEqual($el.querySelector('main').id, 'content', 'Add id="content" to <main> container');
+                assert.deepEqual($el.querySelector('main').children.length, 1, 'After adding 1 element, list of contents should have only 1 tab');
+                assert.deepEqual($el.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
 
                 c.addTab('xxx', 'yyy');
                 c.addTab('abc', 'bleh');
 
                 $el = c.build();
 
-                assert.equal($el.querySelector('main').children.length, 3, 'After adding 3 elements, list of contents should have 3 tabs');
-                assert.equal($el.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
-                assert.equal($el.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
+                assert.deepEqual($el.querySelector('main').children.length, 3, 'After adding 3 elements, list of contents should have 3 tabs');
+                assert.deepEqual($el.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
+                assert.deepEqual($el.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
             });
 
         });
@@ -171,15 +186,17 @@ describe('TabsComponent', function () {
         describe('render', () => {
             test('should define render method', (assert) => {
                 const c = new TabsComponent({});
-                assert.equal(typeof c.render, 'function', 'Define function "this.render"');
+                assert.deepEqual(typeof c.render, 'function', 'Define function "this.render()"');
             });
 
             test('should remove all elements from "$target"', (assert) => {
-                const $target = document.querySelector('#qunit-fixture');
+                const $target = document.createElement('div');
+                $target.appendChild(document.createElement('p'));
+                $target.appendChild(document.createElement('ul'));
                 const c = new TabsComponent({ $target });
                 c.render();
-                assert.equal(c.$el, null, 'When list of tabs is empty, property "this.$el" should be empty too');
-                assert.equal($target.innerHTML, '', 'Render should clear content of $target container');
+                assert.deepEqual(c.$el, null, 'When list of tabs is empty, property "this.$el" should be empty too');
+                assert.deepEqual($target.innerHTML, '', 'Render should clear content of "this.$target" container with "innerHTML" function');
             });
 
             test('should render proper DOM tree', (assert) => {
@@ -190,15 +207,17 @@ describe('TabsComponent', function () {
                 c.addTab('abc', 'bleh');
                 c.render();
 
-                assert.equal($target.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
-                assert.equal($target.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
-                assert.equal($target.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
-                assert.equal($target.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
+                assert.ok(c.$el instanceof HTMLElement, 'Append "this.$target" only with HTMLElement instance');
+                assert.notEqual($target.querySelector('ul'), null, 'Function "render" should update "this.$el" property with "this.build()"');
+                assert.deepEqual($target.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
+                assert.deepEqual($target.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
+                assert.deepEqual($target.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
+                assert.deepEqual($target.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
 
-                assert.equal($target.querySelector('main').children.length, 3);
-                assert.equal($target.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
-                assert.equal($target.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
-                assert.equal($target.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
+                assert.deepEqual($target.querySelector('main').children.length, 3);
+                assert.deepEqual($target.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
+                assert.deepEqual($target.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
+                assert.deepEqual($target.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
             });
         });
     });
