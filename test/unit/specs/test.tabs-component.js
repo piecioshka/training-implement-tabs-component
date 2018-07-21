@@ -102,6 +102,10 @@ describe('TabsComponent', function () {
                 assert.deepEqual(typeof c.addTab, 'function', 'Define function "this.addTab()"');
             });
 
+            test('should be a method in prototype', (assert) => {
+                assert.deepEqual(typeof TabsComponent.prototype.addTab, 'function', 'Define function "TabsComponent.prototype.addTab"');
+            });
+
             test('addTab: expected 2 arguments: title, content', (assert) => {
                 const c = new TabsComponent({});
                 assert.deepEqual(c.addTab.length, 2, 'Method "this.addTab()" expects 2 arguments');
@@ -119,9 +123,13 @@ describe('TabsComponent', function () {
         });
 
         describe('build', () => {
-            test('should define render method', (assert) => {
+            test('should be a method', (assert) => {
                 const c = new TabsComponent({});
                 assert.deepEqual(typeof c.build, 'function', 'Define function "this.build()"');
+            });
+
+            test('should be a method in prototype', (assert) => {
+                assert.deepEqual(typeof TabsComponent.prototype.build, 'function', 'Define function "TabsComponent.prototype.build"');
             });
 
             test('should not modify current "this.$el" property', (assert) => {
@@ -191,9 +199,13 @@ describe('TabsComponent', function () {
         });
 
         describe('render', () => {
-            test('should define render method', (assert) => {
+            test('should be a method', (assert) => {
                 const c = new TabsComponent({});
                 assert.deepEqual(typeof c.render, 'function', 'Define function "this.render()"');
+            });
+
+            test('should be a method in prototype', (assert) => {
+                assert.deepEqual(typeof TabsComponent.prototype.render, 'function', 'Define function "TabsComponent.prototype.render"');
             });
 
             test('should remove all elements from "$target"', (assert) => {
