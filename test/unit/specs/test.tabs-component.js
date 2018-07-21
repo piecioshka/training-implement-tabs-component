@@ -124,17 +124,17 @@ describe('TabsComponent', function () {
                 assert.deepEqual(typeof c.build, 'function', 'Define function "this.build()"');
             });
 
-            test('should verify that list of tabs is non-empty', (assert) => {
-                const c = new TabsComponent({});
-                const $el = c.build();
-                assert.deepEqual($el, null, 'Add early return to "this.build()" method, with checking that "this.tabs" is empty');
-            });
-
             test('should not modify current "this.$el" property', (assert) => {
                 const c = new TabsComponent({});
                 c.addTab('t', 'c');
                 c.build();
                 assert.deepEqual(c.$el, null, 'Function "this.build()" should create structure, but not modify current "this.$el" property');
+            });
+
+            test('should verify that function returns nothing', (assert) => {
+                const c = new TabsComponent({});
+                const result = c.build();
+                assert.deepEqual(result, null, 'Add early return with "null", when "this.tabs" is empty');
             });
 
             test('should use "this.tabs" to build DOM tree with tabs', (assert) => {
