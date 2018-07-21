@@ -224,19 +224,28 @@ describe('TabsComponent', function () {
                 c.addTab('foo', 'bar');
                 c.addTab('xxx', 'yyy');
                 c.addTab('abc', 'bleh');
+
+                const build = sinon.spy(c, 'build');
+
                 c.render();
 
-                assert.ok(c.$el instanceof HTMLElement, 'Append "this.$target" only with HTMLElement instance');
-                assert.notEqual($target.querySelector('ul'), null, 'Function "render" should update "this.$el" property with "this.build()"');
-                assert.deepEqual($target.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
-                assert.deepEqual($target.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
-                assert.deepEqual($target.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
-                assert.deepEqual($target.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
+                assert.ok(c.$el instanceof HTMLElement, 'Property "this.$el" should be a HTMLElement');
+                assert.ok(build.called, 'Function "this.render()" should calls "this.build()"');
+
+                assert.notEqual($target.querySelector('nav'), null, 'Function "render" should update "this.$target" property with "this.build()"');
+                assert.notEqual($target.querySelector('nav').querySelector('ul'), null, 'Function "render" should update "this.$target" property with "this.build()"');
+                assert.deepEqual($target.querySelector('nav').querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
+
+                [...$target.querySelector('nav').querySelector('ul').children].forEach((item, index) => {
+                    assert.deepEqual(item.textContent, c.tabs[index].title, 'Insert "title" property value to <li> element');
+                });
 
                 assert.deepEqual($target.querySelector('main').children.length, 3);
-                assert.deepEqual($target.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
-                assert.deepEqual($target.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
-                assert.deepEqual($target.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
+
+                [...$target.querySelector('main').children].forEach((item, index) => {
+                    assert.deepEqual(item.tagName.toLowerCase(), 'p', 'Each children should be a <p>');
+                    assert.deepEqual(item.textContent, c.tabs[index].content, 'Each <p> should contains "content" property');
+                });
             });
         });
     });
