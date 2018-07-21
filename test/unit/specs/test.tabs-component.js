@@ -155,7 +155,6 @@ describe('TabsComponent', function () {
 
                 assert.deepEqual($el.querySelector('nav').querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
 
-
                 [...$el.querySelector('nav').querySelector('ul').children].forEach((item, index) => {
                     assert.deepEqual(item.textContent, c.tabs[index].title, 'Insert "title" property value to <li> element');
                 });
@@ -173,10 +172,9 @@ describe('TabsComponent', function () {
 
                 let $el = c.build();
 
-                assert.ok($el.querySelector('main'), 'Create <main> with list of <div> which contains "titles"');
+                assert.ok($el.querySelector('main'), 'Create <main> as sibling of <nav>');
                 assert.deepEqual($el.querySelector('main').id, 'content', 'Add id="content" to <main> container');
                 assert.deepEqual($el.querySelector('main').children.length, 1, 'After adding 1 element, list of contents should have only 1 tab');
-                assert.deepEqual($el.querySelector('main').children[0].textContent, 'bar', 'First content container, should have value from "content" property');
 
                 c.addTab('xxx', 'yyy');
                 c.addTab('abc', 'bleh');
@@ -184,10 +182,12 @@ describe('TabsComponent', function () {
                 $el = c.build();
 
                 assert.deepEqual($el.querySelector('main').children.length, 3, 'After adding 3 elements, list of contents should have 3 tabs');
-                assert.deepEqual($el.querySelector('main').children[1].textContent, 'yyy', 'Second content container, should have value from "content" property');
-                assert.deepEqual($el.querySelector('main').children[2].textContent, 'bleh', 'Third content container, should have value from "content" property');
-            });
 
+                [...$el.querySelector('main').children].forEach((item, index) => {
+                    assert.deepEqual(item.tagName.toLowerCase(), 'p', 'Each children should be a <p>');
+                    assert.deepEqual(item.textContent, c.tabs[index].content, 'Each <p> should contains "content" property');
+                });
+            });
         });
 
         describe('render', () => {
