@@ -142,9 +142,8 @@ describe('TabsComponent', function () {
                 assert.ok($el.querySelector('nav'), 'Append <nav> container into current <div> (use "appendChild" method)');
                 assert.deepEqual($el.querySelector('nav').id, 'tabs', 'Set id="tabs" into <nav>');
                 assert.ok($el.querySelector('nav').querySelector('ul'), 'Create <nav> with <ul> which contains list of "titles"');
-                assert.ok($el.querySelector('ul'), 'Create <ul> with list of <li> which contains "titles"');
-                assert.deepEqual($el.querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 tab');
-                assert.deepEqual($el.querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
+                assert.deepEqual($el.querySelector('nav').querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 tab');
+                assert.deepEqual($el.querySelector('nav').querySelector('ul').children[0].textContent, 'foo', 'First tab should have value form "title" property');
 
                 c.addTab('xxx', 'yyy');
                 c.addTab('abc', 'bleh');
