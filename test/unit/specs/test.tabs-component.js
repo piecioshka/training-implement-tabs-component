@@ -218,6 +218,16 @@ describe('TabsComponent', function () {
                 assert.deepEqual($target.innerHTML, '', 'Render should clear content of "this.$target" container with "innerHTML" function');
             });
 
+            test('should call', (assert) => {
+                const $target = document.querySelector('#qunit-fixture');
+                const c = new TabsComponent({ $target });
+                const build = sinon.spy(c, 'build');
+
+                c.render();
+
+                assert.ok(build.called, 'Function "this.render()" should calls "this.build()"');
+            });
+
             test('should render proper DOM tree', (assert) => {
                 const $target = document.querySelector('#qunit-fixture');
                 const c = new TabsComponent({ $target });
@@ -230,22 +240,9 @@ describe('TabsComponent', function () {
                 c.render();
 
                 assert.ok(c.$el instanceof HTMLElement, 'Property "this.$el" should be a HTMLElement');
-                assert.ok(build.called, 'Function "this.render()" should calls "this.build()"');
+                assert.ok(build.returned(c.$el), 'Property "this.$el" should be a result of "this.build()" function');
 
-                assert.notEqual($target.querySelector('nav'), null, 'Function "render" should update "this.$target" property with "this.build()"');
-                assert.notEqual($target.querySelector('nav').querySelector('ul'), null, 'Function "render" should update "this.$target" property with "this.build()"');
-                assert.deepEqual($target.querySelector('nav').querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
-
-                [...$target.querySelector('nav').querySelector('ul').children].forEach((item, index) => {
-                    assert.deepEqual(item.textContent, c.tabs[index].title, 'Insert "title" property value to <li> element');
-                });
-
-                assert.deepEqual($target.querySelector('main').children.length, 3);
-
-                [...$target.querySelector('main').children].forEach((item, index) => {
-                    assert.deepEqual(item.tagName.toLowerCase(), 'p', 'Each children should be a <p>');
-                    assert.deepEqual(item.textContent, c.tabs[index].content, 'Each <p> should contains "content" property');
-                });
+                assert.deepEqual($target.firstChild, c.$el, 'this.$target should be appended with "this.$el"');
             });
         });
     });
