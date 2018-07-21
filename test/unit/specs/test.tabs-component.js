@@ -208,6 +208,27 @@ describe('TabsComponent', function () {
                 assert.deepEqual(typeof TabsComponent.prototype.render, 'function', 'Define function "TabsComponent.prototype.render" (same syntax as "constructor")');
             });
 
+            test('should add protection against "null" when calls this.$target.appendChild', (assert) => {
+                const $target = document.createElement('div');
+                $target.appendChild(document.createElement('p'));
+                $target.appendChild(document.createElement('ul'));
+
+                const c = new TabsComponent({ $target });
+                const appendChild = c.$target.appendChild;
+
+                c.$target.appendChild = function (...args) {
+                    assert.notEqual(args[0], null, 'Passed argument is "null"');
+                    return appendChild.call(c.$target, ...args);
+                };
+
+                c.render();
+
+                // HACK for QUnit protection agains zero assertions.
+                assert.ok(true);
+
+                c.$target.appendChild = appendChild;
+            });
+
             test('should remove all elements from "$target"', (assert) => {
                 const $target = document.createElement('div');
                 $target.appendChild(document.createElement('p'));
