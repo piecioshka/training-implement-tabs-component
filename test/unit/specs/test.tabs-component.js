@@ -131,12 +131,6 @@ describe('TabsComponent', function () {
                 assert.deepEqual(c.$el, null, 'Function "this.build()" should create structure, but not modify current "this.$el" property');
             });
 
-            test('should verify that function returns nothing', (assert) => {
-                const c = new TabsComponent({});
-                const result = c.build();
-                assert.deepEqual(result, null, 'Add early return with "null", when "this.tabs" is empty');
-            });
-
             test('should use "this.tabs" to build DOM tree with tabs', (assert) => {
                 const c = new TabsComponent({ $target: {} });
                 c.addTab('foo', 'bar');
@@ -158,6 +152,12 @@ describe('TabsComponent', function () {
                 assert.deepEqual($el.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
                 assert.deepEqual($el.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
                 assert.deepEqual($el.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
+            });
+
+            test('should verify that function returns nothing', (assert) => {
+                const c = new TabsComponent({});
+                const result = c.build();
+                assert.deepEqual(result, null, 'Add early return with "null", when "this.tabs" is empty');
             });
 
             test('should build content list as DOM elements', (assert) => {
