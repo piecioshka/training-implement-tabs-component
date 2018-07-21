@@ -142,8 +142,7 @@ describe('TabsComponent', function () {
                 assert.ok($el.querySelector('nav'), 'Append <nav> container into current <div> (use "appendChild" method)');
                 assert.deepEqual($el.querySelector('nav').id, 'tabs', 'Set id="tabs" into <nav>');
                 assert.ok($el.querySelector('nav').querySelector('ul'), 'Create <nav> with <ul> which contains list of "titles"');
-                assert.deepEqual($el.querySelector('nav').querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 tab');
-                assert.deepEqual($el.querySelector('nav').querySelector('ul').children[0].textContent, 'foo', 'First tab should have value from "title" property');
+                assert.deepEqual($el.querySelector('nav').querySelector('ul').children.length, 1, 'After adding 1 element, list of tabs should have only 1 <li>');
 
                 [...$el.querySelector('nav').querySelector('ul').children].forEach((item) => {
                     assert.deepEqual(item.tagName.toLowerCase(), 'li', '');
@@ -154,9 +153,12 @@ describe('TabsComponent', function () {
 
                 $el = c.build();
 
-                assert.deepEqual($el.querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
-                assert.deepEqual($el.querySelector('ul').children[1].textContent, 'xxx', 'Second tab should have value from "title" property');
-                assert.deepEqual($el.querySelector('ul').children[2].textContent, 'abc', 'Third tab should have value from "title" property');
+                assert.deepEqual($el.querySelector('nav').querySelector('ul').children.length, 3, 'After adding 3 elements, list of tabs should have 3 tabs');
+
+
+                [...$el.querySelector('nav').querySelector('ul').children].forEach((item, index) => {
+                    assert.deepEqual(item.textContent, c.tabs[index].title, 'Insert "title" property value to <li> element');
+                });
             });
 
             test('should verify that function returns nothing', (assert) => {
