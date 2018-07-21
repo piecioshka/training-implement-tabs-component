@@ -137,6 +137,7 @@ describe('TabsComponent', function () {
 
                 let $el = c.build();
 
+                assert.ok($el instanceof HTMLElement, 'Function "this.build()" should returns HTMLElement');
                 assert.ok($el.querySelector('nav'), 'Create <nav> for tabs panel');
                 assert.deepEqual($el.querySelector('nav').id, 'tabs', 'Set id="tabs" into <nav>');
                 assert.ok($el.querySelector('nav').querySelector('ul'), 'Create <nav> with <ul> which contains list of "titles" (use "appendChild" method)');
