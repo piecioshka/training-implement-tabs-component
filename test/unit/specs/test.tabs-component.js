@@ -103,7 +103,7 @@ describe('TabsComponent', function () {
             });
 
             test('should be a method in prototype', (assert) => {
-                assert.deepEqual(typeof TabsComponent.prototype.addTab, 'function', 'Define function "TabsComponent.prototype.addTab"');
+                assert.deepEqual(typeof TabsComponent.prototype.addTab, 'function', 'Define function "TabsComponent.prototype.addTab" (same syntax as "constructor")');
             });
 
             test('addTab: expected 2 arguments: title, content', (assert) => {
@@ -129,7 +129,7 @@ describe('TabsComponent', function () {
             });
 
             test('should be a method in prototype', (assert) => {
-                assert.deepEqual(typeof TabsComponent.prototype.build, 'function', 'Define function "TabsComponent.prototype.build"');
+                assert.deepEqual(typeof TabsComponent.prototype.build, 'function', 'Define function "TabsComponent.prototype.build" (same syntax as "constructor")');
             });
 
             test('should not modify current "this.$el" property', (assert) => {
@@ -205,7 +205,7 @@ describe('TabsComponent', function () {
             });
 
             test('should be a method in prototype', (assert) => {
-                assert.deepEqual(typeof TabsComponent.prototype.render, 'function', 'Define function "TabsComponent.prototype.render"');
+                assert.deepEqual(typeof TabsComponent.prototype.render, 'function', 'Define function "TabsComponent.prototype.render" (same syntax as "constructor")');
             });
 
             test('should remove all elements from "$target"', (assert) => {
