@@ -12,10 +12,9 @@
     "scripts": {
         "start": "browser-sync start --server --watch"
     },
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
-        "browser-sync": "^2.24.5"
+        "browser-sync": "^2.26.3"
     },
     "repository": {
         "type": "git",
