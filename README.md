@@ -4,8 +4,8 @@
 
 ## What's going on?
 
-I've written some __unit tests__ to describe sample production code.<br/>
-Your mission is to **complete the implementation** by writing a code in `app/`.
+I've written some _unit tests_ to describe sample production code.<br/>
+Your mission is to **complete the implementation** by writing a code.
 
 ## How to complete the task?
 
@@ -15,9 +15,9 @@ Your mission is to **complete the implementation** by writing a code in `app/`.
 git clone git@github.com:piecioshka/training-implement-tabs-component.git
 ```
 
-### 2. **Open** :hammer:
+### 2. **Open** in browser :hammer:
 
-Open the `index.html` file in the browser and __refresh__ after wrote some code.
+Open the `index.html` file in the browser and _refresh_ after wrote some code.
 
 ### 3. **Implement** :construction:
 
