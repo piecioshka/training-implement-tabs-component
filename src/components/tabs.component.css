@@ -1,0 +1,22 @@
+#page {
+    width: 400px;
+    margin: 0 auto;
+}
+
+#tabs ul {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#tabs ul li {
+    padding: 10px 40px;
+    background-color: antiquewhite;
+}
+
+#tab-content p {
+    padding: 20px;
+    background-color: lightgray;
+}

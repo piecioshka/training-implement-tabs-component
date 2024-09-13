@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo: Tabs Component</title>
+    <link rel="stylesheet" href="components/tabs.component.css">
+</head>
+<body>
+
+    <div id="page">
+        <h1>Tabs Component</h1>
+        <div id="app"></div>
+    </div>
+    <script src="components/tabs.component.js"></script>
+    <script>
+        const $app = document.getElementById('app');
+        const tabs = [
+            {
+                title: 'Tab 1',
+                content: 'Content 1'
+            },
+            {
+                title: 'Tab 2',
+                content: 'Content 2'
+            },
+            {
+                title: 'Tab 3',
+                content: 'Content 3'
+            }
+        ];
+
+        const tabsComponent = new TabsComponent({ $target: $app });
+        tabsComponent.setTabs(tabs);
+        tabsComponent.render();
+    </script>
+
+</body>
+</html>
