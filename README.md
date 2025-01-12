@@ -30,4 +30,4 @@ The mission is complete when **all unit tests are passing** :tada:
 
 ## License
 
-[The MIT License](https://piecioshka.mit-license.org) @ 2018-2024
+[The MIT License](https://piecioshka.mit-license.org) @ 2018
